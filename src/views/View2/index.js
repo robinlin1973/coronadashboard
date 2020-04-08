@@ -47,7 +47,7 @@ export default class View2 extends Component {
         {
             var latest = latestCountry(data,selectedCountry);
             var summary = summarizeCountry(data,selectedCountry);
-        }//if(data!=null)
+        }
 
         return (
             <div id='view2' className='pane'>
