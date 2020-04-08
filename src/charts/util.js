@@ -14,7 +14,7 @@ function groupBy(list, keyGetter) {
 
 
 function findCountryData(data,country,date){
-
+//    country = countryname(country);
     const groups = ['country', 'date'];
     var grouped = {};
     var result = {"confirmed":0,"recovered":0,"deaths":0,"active":0}
@@ -74,8 +74,24 @@ function latestDate(data){
     return closest.date;
 }
 
+function countryname(name){
+    if(name==='Mainland China')
+    {
+        return "China";
+    }
+    else if(name==='US')
+    {
+        return "United States";
+    }
+    else{
+        return name;
+    }
+
+}
+
 
 function latestCountry(data,selectedCountry){
+//    selectedCountry = countryname(selectedCountry);
     const today = new Date();
     const closest = data.reduce((a, b) => a.Date - today < b.Date - today ? a : b);
     const date= closest.date;
@@ -101,6 +117,7 @@ function latestCountry(data,selectedCountry){
 }
 
 function summarizeCountry(data,selectedCountry){
+//    selectedCountry = countryname(selectedCountry);
     var latest = latestCountry(data,selectedCountry);
     var confirmed = latest.reduce((a, b) => +a + +b.confirmed, 0);
     var recovered = latest.reduce((a, b) => +a + +b.recovered, 0);

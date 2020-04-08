@@ -2,7 +2,7 @@
   "name": "react-d3-dashboard",
   "version": "0.1.0",
   "private": true,
-  "homepage":"https://robinlin1973.github.io/test/",
+  "homepage":"https://robinlin1973.github.io/coronadashboard",
   "dependencies": {
     "@vx/scale": "0.0.195",
     "antd": "^4.0.4",

@@ -40,8 +40,7 @@ export default class View2 extends Component {
         ];
 
         var data = JSON.parse(JSON.stringify(this.props.data));
-        const {selectedCountry} = this.props;
-        let date = null;
+        const {selectedCountry,lDate} = this.props;
 
 
         if(data!=null)
@@ -53,7 +52,7 @@ export default class View2 extends Component {
         return (
             <div id='view2' className='pane'>
                 <div className='countrytitle'>{this.props.selectedCountry} Detail:</div>
-                <div><span className='total'>{summary.confirmed}</span> until <span className='date'>{date}</span></div>
+                <div><span className='total'>{summary.confirmed}</span> until <span className='date'>{lDate}</span></div>
                 <Table columns={columns} dataSource={latest} />
             </div>
         )

@@ -6,11 +6,11 @@ import View2 from './views/View2';
 import View3 from './views/View3';
 //import View4 from './views/View4';
 //import View5 from './views/View5';
-//import View6 from './views/View6';
+import {latestDate} from './charts/util.js';
 import View7 from './views/View7';
 //import View8 from './views/View8';
 import './dashboard.css';
-import rawdata from './data/covid.csv';
+import rawdata from './data/covid_19_data.csv';
 //import rawdata from 'covid.csv';
 import * as d3 from 'd3';
 
@@ -45,9 +45,9 @@ export default class Dashboard extends Component {
 
     render() {
         const {coronadata} = this.state;
-
         if(!coronadata){return null;}
-
+        let lDate = latestDate(coronadata);
+        let selectedCountry = this.state.selectedCountry;
 
         return (
             <div>
@@ -68,7 +68,7 @@ export default class Dashboard extends Component {
                         </Layout>
 
                         <Sider width={400} style={{backgroundColor:'#eee'}}>
-                            <View2 data={coronadata} selectedCountry={this.state.selectedCountry}/>
+                            <View2 data={coronadata} selectedCountry={selectedCountry} lDate={lDate}/>
                         </Sider>
                     </Layout>
                 </Layout>
