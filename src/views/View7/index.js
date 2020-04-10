@@ -13,7 +13,7 @@ export default class View7 extends Component {
         return (
             <div id='view7' className='pane'>
                 <div style={{ overflowX: 'scroll',overflowY:'hidden' }}>
-                        <svg width="1000" height="580">
+                        <svg width="900" height="500">
                             <CoronaBubble  data={data} selectedCountry={selectedCountry}/>
                         </svg>
                 </div>

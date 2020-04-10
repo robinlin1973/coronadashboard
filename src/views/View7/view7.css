@@ -3,13 +3,13 @@
     background-color: white;
 }
 
-
-
 path {
   stroke-linejoin: round;
   stroke-linecap: round;
 }
 
-.pathcls:hover {
-  opacity: 0.5;
+.worldpath:hover {
+  opacity: 0.7;
+  fill: white;
+/*    stroke:brown;*/
 }

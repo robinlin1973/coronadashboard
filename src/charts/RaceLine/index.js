@@ -173,8 +173,8 @@ class CoronaLine extends Component{
               .attr('class', 'legend');
 
           legend.append('rect')
-              .attr('x', 30)
-              .attr('y', function(d, i){ return i *  30;})
+              .attr('x', 60)
+              .attr('y', function(d, i){ return i * 30 +30 ;})
               .attr('width', 20)
               .attr('height', 20)
               .style('fill', function(d,i) {
@@ -182,8 +182,8 @@ class CoronaLine extends Component{
               });
 
           legend.append('text')
-              .attr('x', 60)
-              .attr('y', function(d, i){ return (i *  30) + 15;})
+              .attr('x', 90)
+              .attr('y', function(d, i){ return (i * 30) + 45;})
               .text(function(d){ return d; });
 
 

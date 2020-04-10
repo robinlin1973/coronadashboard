@@ -30,7 +30,8 @@ class CoronaBubble extends Component {
     {
         console.log("CoronaBubble:drawmap");
         const svg = d3.select(this.refs.anchor),{data } = this.props;
-        const projection = d3.geoMercator();
+        const projection = d3.geoMercator().center([30, 40 ])
+            .scale(120);
         const path = d3.geoPath(projection);
 //        const date = this.state.date;
         const groups = ['country', 'date'];
@@ -87,7 +88,7 @@ class CoronaBubble extends Component {
 
 
         var linear_color = d3.scaleThreshold()
-            .domain([100,500,1000,2000,5000,10000,20000,50000,100000])
+            .domain([500,1000,2000,5000,10000,20000,50000,100000,200000])
             .range(d3.schemeBlues[9]);
 
 
@@ -161,7 +162,7 @@ class CoronaBubble extends Component {
 
         svg.append("g")
           .attr("class", "legendLinear")
-          .attr("transform", "translate(30,250)");
+          .attr("transform", "translate(30,270)");
 
         var legendLinear = legendColor()
           .shapeWidth(30)
