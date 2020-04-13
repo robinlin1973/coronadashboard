@@ -60,7 +60,8 @@ export default class Dashboard extends Component {
                         </Sider>
                         <Layout style={{ height: 900 }}>
                             <Content style={{ height: 500 }}>
-                                <View7 data={coronadata} selectedCountry={this.state.selectedCountry}/>
+                                <View7 data={coronadata} selectedCountry={this.state.selectedCountry}
+                                    onCountryChanged={this.handleCountryChanged}/>
                             </Content>
                             <Content style={{ height: 300 }}>
                                 <View3 data={coronadata} selectedCountry={this.state.selectedCountry}/>

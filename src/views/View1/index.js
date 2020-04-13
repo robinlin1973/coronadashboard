@@ -7,7 +7,6 @@ import { Table } from 'antd';
 
 export default class View1 extends Component {
     handleDoubleClick=(record, rowIndex)=>{
-//        console.log(record.country);
         this.props.onCountryChanged(record.country);
     }
     render() {
@@ -16,23 +15,12 @@ export default class View1 extends Component {
             title: 'Country',
             dataIndex: 'country',
             key: 'country',
-//            render: text => <a>{text}</a>,
           },
           {
             title: 'Deaths',
             dataIndex: 'deaths',
             key: 'deaths',
-          },
-//          {
-//            title: 'Confirmed',
-//            dataIndex: 'confirmed',
-//            key: 'confirmed',
-//          },
-//         {
-//            title: 'Recovered',
-//            dataIndex: 'recovered',
-//            key: 'recovered',
-//          },
+          }
         ];
 
 
@@ -57,28 +45,28 @@ export default class View1 extends Component {
               } else {
                 helper[key].confirmed = parseInt(helper[key].confirmed) + parseInt(o.confirmed);
                 helper[key].recovered = parseInt(helper[key].recovered) + parseInt(o.recovered);
-                helper[key].deaths = parseInt(helper[key].deaths) + parseInt(o.deaths);
+                helper[key].deaths = (parseInt(helper[key].deaths) + parseInt(o.deaths));
               }
 
               return r;
             }, []);
 
+
             var sums = sum_by_country.map(function(d) {
               return {
                 country: d.country,
-                deaths: d.deaths,
-                confirmed: d.confirmed,
-                recovered: d.recovered,
+                deaths:Math.round(d.deaths),
+                confirmed: Math.round(d.confirmed),
+                recovered: Math.round(d.recovered),
               }
             });
+
             sums.sort(function(a,b) {
                 return b.confirmed-a.confirmed;
             });
             total= sums.reduce((a, b) => +a + +b.confirmed, 0);;
-            console.log(total);
+
         }//if(data!=null)
-
-
 
         return (
             <div id='view1' className='pane'>
@@ -87,7 +75,7 @@ export default class View1 extends Component {
                 <Table columns={columns} dataSource={sums}
                       onRow={(record, rowIndex) => {
                       return {
-                          onDoubleClick: event => {this.handleDoubleClick(record, rowIndex)} // double click row
+                          onClick: event => {this.handleDoubleClick(record, rowIndex)} // double click row
                         };
                       }}
                 />

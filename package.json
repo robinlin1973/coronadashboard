@@ -2,7 +2,7 @@
   "name": "react-d3-dashboard",
   "version": "0.1.0",
   "private": true,
-  "homepage":"https://robinlin1973.github.io/coronadashboard",
+  "homepage": "https://robinlin1973.github.io/coronadashboard",
   "dependencies": {
     "@vx/scale": "0.0.195",
     "antd": "^4.0.4",
@@ -22,8 +22,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "predeploy":"npm run build",
-    "deploy":"gh-pages -d build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

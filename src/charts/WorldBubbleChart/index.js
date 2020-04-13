@@ -1,24 +1,18 @@
 import React, {Component} from 'react';
 // import queue from 'queue';
 // import topojson from 'topojson';
-// import all of topojson?????
 import * as topojson from 'topojson';
 import * as d3 from 'd3';
 import {findCountryData,summarizeCountry,latestDate} from '../util.js';
-//import {createHistorySlider} from './createHistorySlider.js';
 import world from '../../data/world-topo.json';
 //import world from '../../data/countries_geo.json';
 //import { timeParse, timeFormat } from 'd3-time-format';
-import { legendColor } from 'd3-svg-legend';
+import { legendColor,legendHelpers } from 'd3-svg-legend';
 import d3Tip from "d3-tip";
 import './style.css';
 
 
 class CoronaBubble extends Component {
-//    state = {
-//        date:'03/24/2020',
-//        datatype:'deaths',
-//    };
 
     constructor(props) {
       super(props);
@@ -33,21 +27,8 @@ class CoronaBubble extends Component {
         const projection = d3.geoMercator().center([30, 40 ])
             .scale(120);
         const path = d3.geoPath(projection);
-//        const date = this.state.date;
         const groups = ['country', 'date'];
         var grouped = {};
-//        const format = timeFormat('%m/%d/%Y');
-//        var timer = null;
-//        var isPlaying = false;
-//
-//        var slider = createHistorySlider(
-//            '#dateslider',width-200,80,'01/22/2020',this.state.date,(date)=>{
-//                const d = format(date);
-//
-//                this.setState({
-//                    date:d,
-//                })
-//        });
 
         var tip = d3Tip()
           .attr('class', 'd3-tip')
@@ -61,21 +42,6 @@ class CoronaBubble extends Component {
             return tipstring;
           })
 
-
-//        d3.select("#play")
-//              .attr("title","Play animation")
-//              .on("click",function(){
-//                if ( !isPlaying ){
-//                  d3.select(this).classed("pause",true).attr("title","Pause animation");
-//                  timer = setInterval(step, 100);
-////                  isPlaying = true;
-//                } else {
-//                  clearInterval(timer);
-//                  d3.select(this).classed("pause",false).attr("title","Play animation");
-////                  isPlaying = false;
-//                }
-//              });
-
         data.forEach(function (a) {
             groups.reduce(function (o, g, i) {  // take existing object,
                 o[a[g]] = o[a[g]] || (i + 1 === groups.length ? [] : {}); // or generate new obj, or
@@ -88,11 +54,9 @@ class CoronaBubble extends Component {
 
 
         var linear_color = d3.scaleThreshold()
-            .domain([500,1000,2000,5000,10000,20000,50000,100000,200000])
+            .domain([500,1000,2000,5000,10000,20000,50000,100000])
             .range(d3.schemeBlues[9]);
 
-
-//        findMax(data, "confirmed");
 
         g.append('circle')
             .attr('id', 'tipfollowscursor')
@@ -116,7 +80,10 @@ class CoronaBubble extends Component {
             .attr("stroke", "black")
             .attr("stroke-linejoin", "round")
             .attr("d", path)
-//            .on('mouseover', tip.show)
+            .on('click', d=>{
+                this.props.onCountryChanged(d.properties['name']);
+                tip.hide();
+            })
             .on('mouseover', function (d) {
                 var target = d3.select('#tipfollowscursor')
                     .attr('cx', d3.event.offsetX)
@@ -166,10 +133,9 @@ class CoronaBubble extends Component {
 
         var legendLinear = legendColor()
           .shapeWidth(30)
-//          .title("Corona cases by country")
           .labelFormat(d3.format(".0f"))
-          .cells(10)
           .orient('vertical')
+          .labels(legendHelpers.thresholdLabels)
           .scale(linear_color);
 
         svg.select(".legendLinear")
