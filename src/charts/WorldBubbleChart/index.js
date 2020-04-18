@@ -35,6 +35,7 @@ class CoronaBubble extends Component {
           .direction('s')
           .html(function(d) {
             var country = d.properties['name'];
+//            var country = d.properties['ADMIN'];
             var summary =  summarizeCountry(data,country);
 
             var tipstring = "<strong>"+country+"</strong><br>"+"<strong>Confirmed:</strong><span style='color:red'>" + summary.confirmed + "</span><br>"+"<strong>deaths:</strong><span style='color:red'>" + summary.deaths + "</span><br>"+"<strong>active:</strong><span style='color:red'>" + summary.active + "</span><br>"+"<strong>recovered:</strong><span style='color:red'>" + summary.recovered + "</span><br>";
@@ -66,22 +67,26 @@ class CoronaBubble extends Component {
         g.call(tip);
         g.selectAll("path .worldpath")
           .data(topojson.feature(world, world.objects.units).features)
+//          .data(world.features)
           .call(tip)
            .join("path")
             .attr("fill", (d)=>{
                     var country =d.properties['name'];
-////                    var summ = summarizeCountry(data,country);
+//                    var country =d.properties['ADMIN'];
                     var number = findCountryData(data,country,this.state.date)[this.state.datatype];
                     var color = linear_color(number);
                     return color;
                 })
             .attr("class","worldpath")
             .attr("id",d => d.properties['name'])
+//            .attr("id",d => d.properties['ADMIN'])
             .attr("stroke", "black")
             .attr("stroke-linejoin", "round")
             .attr("d", path)
             .on('click', d=>{
+                console.log(d);
                 this.props.onCountryChanged(d.properties['name']);
+//                this.props.onCountryChanged(d.properties['ADMIN']);
                 tip.hide();
             })
             .on('mouseover', function (d) {
@@ -92,42 +97,8 @@ class CoronaBubble extends Component {
                 tip.show(d, target);
             })
             .on('mouseout', tip.hide);
-//            .append("title")
-//              .text(d => d.properties['name']);
 
-
-// add zoom funtion for map
-//        var zoom = d3.zoom()
-//              .scaleExtent([1, 10])
-//              .on('zoom', function() {
-//                  d3.selectAll('#worldgroup,#circledgroup')
-//                   .attr('transform', d3.event.transform);
-//        });
-//
-//        svg.call(zoom);
-
-//        function step(){
-//            var currentdate = new Date(slider.value());
-//            var maxdate= new Date(slider.max());
-//            var mindate= new Date(slider.min());
-//
-//            if(currentdate < maxdate){
-//                currentdate.setDate(currentdate.getDate() + 1);
-//                const startdate = format(currentdate);
-//            }else{
-//                currentdate = mindate;
-//                clearInterval(timer);
-//                d3.select("#play").classed("pause",false).attr("title","Play animation");
-//            }
-//            slider.value(currentdate);
-//        }
-//
-//        d3.select('#datatype').on('change',()=>{
-//            var e = document.getElementById("datatype")
-//            this.setState({datatype:e.options[e.selectedIndex].text});
-//        });
-
-        svg.append("g")
+        g.append("g")
           .attr("class", "legendLinear")
           .attr("transform", "translate(30,270)");
 
@@ -138,59 +109,12 @@ class CoronaBubble extends Component {
           .labels(legendHelpers.thresholdLabels)
           .scale(linear_color);
 
-        svg.select(".legendLinear")
+        g.select(".legendLinear")
           .call(legendLinear);
 
-        //todo when change the selected country, try to show the tip of that country.
-//        console.log("CoronaBubble:drawmap:",this.props.selectedCountry);
-//        var evt = new MouseEvent("mouseover");
-//        document.getElementById(this.props.selectedCountry).dispatchEvent(evt);
 
     }//drawmap
 
-
-    drawbubble(){
-        console.log("CoronaBubble:drawbubble");
-        const svg = d3.select(this.refs.anchor),
-        { data } = this.props;
-//        const world = this.state.worldData;
-        const groups = ['country', 'date'];
-        const projection = d3.geoMercator();
-        var grouped = {};
-
-        data.forEach(function (a) {
-            groups.reduce(function (o, g, i) {  // take existing object,
-                o[a[g]] = o[a[g]] || (i + 1 === groups.length ? [] : {}); // or generate new obj, or
-                return o[a[g]];                                           // at last, then an array
-            }, grouped).push(a);
-        });
-
-        const color={
-                        "deaths":'#ff8424',
-                        "active":'#efb01d',
-                        "recovered":'#a44afe'
-                    };
-
-        svg.selectAll("#circledgroup").remove();
-        const g = svg.append( "g" ).attr("id","circledgroup");
-        g.selectAll(".worldcircle")
-          .data(topojson.feature(world, world.objects.units).features)
-//          .data(world.features)
-          .enter()
-          .append("circle")
-          .attr("r",(d)=>{
-                var country = d.properties['name'];
-                return Math.sqrt(findCountryData(grouped,country,this.state.date)[this.state.datatype])/2;
-            })
-          .attr("fill",color[this.state.datatype])
-          .style("opacity", 0.2)
-          .attr("class","worldcircle")
-          .attr("transform",function(d){
-            var p = projection(d3.geoCentroid(d)); //<-- centroid is the center of the path, projection maps it to pixel positions
-            return "translate("+p+")";
-          });
-
-    }//drawbubble
 
     componentDidMount() {
         console.log("CoronaBubble:componentDidMount")

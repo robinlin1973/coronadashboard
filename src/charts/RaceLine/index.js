@@ -35,13 +35,9 @@ class CoronaLine extends Component{
         var margin = {top: 20, right: 50, bottom: 30, left: 100};
         width = width - margin.left - margin.right;
         height = height - margin.top - margin.bottom;
-
         const parseDate = timeParse('%m/%d/%Y');//01/22/2020
-
         var x = d3.scaleTime().range([0, width]);
-
         var y =  d3.scaleLinear().range([height, 0]);
-
         const color=['#ff8424','#efb01d','#a44afe'];
 
         // sum the data for each country and date
@@ -112,11 +108,18 @@ class CoronaLine extends Component{
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis);
 
+            //Create Title
+        svg.append("g").append("text")
+            .attr("class","countrytitle")
+            .attr("x", width / 2 )
+            .attr("y", 20)
+            .style("text-anchor", "middle")
+            .text(this.props.selectedCountry);
+
         svg.append("g")
             .attr("class", "y axis")
             .attr("transform", "translate(0)")
             .call(yAxis);
-
 
         svg.append("line")
             .attr(
