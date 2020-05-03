@@ -55,7 +55,7 @@ class CoronaBubble extends Component {
 
 
         var linear_color = d3.scaleThreshold()
-            .domain([500,1000,2000,5000,10000,20000,50000,100000])
+            .domain([1000,5000,10000,20000,50000,100000,500000,1000000])
             .range(d3.schemeBlues[9]);
 
 

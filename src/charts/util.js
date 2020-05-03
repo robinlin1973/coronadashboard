@@ -101,9 +101,9 @@ function latestCountry(data,selectedCountry){
     var latest = latest_data.map(function(d) {
       return {
         province: d.province,
-        deaths: d.deaths,
-        confirmed: d.confirmed,
-        recovered: d.recovered,
+        deaths: Math.round(d.deaths),
+        confirmed: Math.round(d.confirmed),
+        recovered: Math.round(d.recovered),
         active:parseInt(d.confirmed) - parseInt(d.deaths) - parseInt(d.recovered),
       }
     });
@@ -123,6 +123,7 @@ function summarizeCountry(data,selectedCountry){
     var recovered = latest.reduce((a, b) => +a + +b.recovered, 0);
     var deaths = latest.reduce((a, b) => +a + +b.deaths, 0);
     var active = confirmed-recovered-deaths;
+
     var summary={"confirmed":confirmed,"recovered":recovered,"deaths":deaths,"active":active};
 //    console.log("summary",selectedCountry,summary);
     return summary;
